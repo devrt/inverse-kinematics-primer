@@ -109,12 +109,12 @@ RTC::ReturnCode_t PA10Controller::onExecute(RTC::UniqueId ec_id)
   // #define K_D -100.0
 
   // inclease D
-#define K_P 3000.0
-#define K_D -800.0
+  // #define K_P 3000.0
+  // #define K_D -800.0
 
   // optimal PD
-  // #define K_P 4000.0
-  // #define K_D -1000.0
+#define K_P 4000.0
+#define K_D -1000.0
 
 #define MaxTau 400.0
   for (size_t i = 0; i < m_qRef.data.length(); i++){

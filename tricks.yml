@@ -1,0 +1,8 @@
+tricks:
+- watchdog.tricks.ShellCommandTrick:
+    patterns: ['*.cpp', '*.h']
+    wait_for_process: true
+    shell_command: 'make'
+- watchdog.tricks.AutoRestartTrick:
+    patterns: ['*.so', '*.xml']
+    command: ['hrpsys-simulator', 'PA10Sample.xml', '-realtime', '-endless']

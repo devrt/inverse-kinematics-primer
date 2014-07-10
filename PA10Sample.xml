@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<grxui>
+  <mode name="Simulation">
+  	<item class="com.generalrobotix.ui.item.GrxSimulationItem" name="SampleSimulation" select="true">
+  	  <property name="integrate" value="true"/>
+			<property name="viewsimulate" value="false"/>
+      <property name="totalTime" value="10.0 "/>
+      <property name="timeStep" value="0.0010 "/>
+      <property name="gravity" value="9.8 "/>
+      <property name="method" value="RUNGE_KUTTA"/>
+    </item>
+    <item class="com.generalrobotix.ui.item.GrxRTSItem" name="untitled" select="true">
+      <property name="pa10.period" value="0.005"/>  
+      <property name="PA10Controller0.period" value="0.005"/>  
+      <property name="PA10Controller0.factory" value="PA10Controller"/>  
+      <property name="connection" value="pa10.q:PA10Controller0.angles"/>
+      <property name="connection" value="pa10.dq:PA10Controller0.vels"/>
+      <property name="connection" value="PA10Controller0.torque:pa10.qRef"/>
+    </item>
+    <item class="com.generalrobotix.ui.item.GrxWorldStateItem" name="PA10" select="true">
+      <property name="logTimeStep" value="0.0010 "/>
+    </item>
+    <item class="com.generalrobotix.ui.item.GrxModelItem" name="pa10" select="true" url="$(CURRENT_DIR)/PA10/pa10.main.wrl">
+      <property name="J1.angle" value="0"/>
+      <property name="J2.angle" value="0.8"/>
+      <property name="J3.angle" value="0.0 "/>
+      <property name="J4.angle" value="0.8"/>
+      <property name="J5.angle" value="0.0 "/>
+      <property name="J6.angle" value="0.8"/>
+      <property name="J7.angle" value="1.57"/>
+      <property name="HAND_L.angle" value="-0.02"/>
+			<property name="HAND_R.angle" value="0.02"/>
+      <property name="BASE.rotation" value="0.0 0.0 1.0 0.0"/>
+      <property name="BASE.translation" value="0.0 0.0 0.0 "/>
+      <property name="isRobot" value="true"/>
+      <property name="inport" value="qRef:JOINT_TORQUE"/> 
+      <property name="outport" value="q:JOINT_VALUE"/>
+      <property name="outport" value="dq:JOINT_VELOCITY"/>
+    </item>
+    <item class="com.generalrobotix.ui.item.GrxModelItem" name="floor" select="true" url="$(CURRENT_DIR)/floor.wrl">
+      <property name="isRobot" value="false"/>
+      <property name="WAIST.rotation" value="0.0 1.0 0.0 0.0 "/>
+      <property name="WAIST.translation" value="0.0 0.0 -0.10000000149011612 "/>
+    </item>
+    <item class="com.generalrobotix.ui.item.GrxModelItem" name="box" select="true" url="$(CURRENT_DIR)/PA10/box.wrl">
+      <property name="isRobot" value="true"/>
+      <property name="WAIST.rotation" value="0.0 1.0 0.0 0.0 "/>
+      <property name="WAIST.translation" value="0.0 -0.9 0.04"/>
+    </item>
+    <item class="com.generalrobotix.ui.item.GrxCollisionPairItem" name="CP#floor_#box_" select="true">
+      <property name="springConstant" value="0 0 0 0 0 0"/>
+      <property name="slidingFriction" value="0.5"/>
+      <property name="jointName2" value=""/>
+      <property name="jointName1" value=""/>
+      <property name="damperConstant" value="0 0 0 0 0 0"/>
+      <property name="objectName2" value="box"/>
+      <property name="objectName1" value="floor"/>
+      <property name="springDamperModel" value="false"/>
+      <property name="staticFriction" value="0.5"/>
+    </item>
+    <item class="com.generalrobotix.ui.item.GrxCollisionPairItem" name="CP#pa10_#box_" select="true">
+      <property name="springConstant" value="0 0 0 0 0 0"/>
+      <property name="slidingFriction" value="0.5"/>
+      <property name="jointName2" value=""/>
+      <property name="jointName1" value=""/>
+      <property name="damperConstant" value="0 0 0 0 0 0"/>
+      <property name="objectName2" value="box"/>
+      <property name="objectName1" value="pa10"/>
+      <property name="springDamperModel" value="false"/>
+      <property name="staticFriction" value="0.5"/>
+    </item>
+    <item class="com.generalrobotix.ui.item.GrxCollisionPairItem" name="CP#floor_#pa10_" select="true">
+      <property name="springConstant" value="0 0 0 0 0 0"/>
+      <property name="slidingFriction" value="0.5"/>
+      <property name="jointName2" value=""/>
+      <property name="jointName1" value=""/>
+      <property name="damperConstant" value="0 0 0 0 0 0"/>
+      <property name="objectName1" value="floor"/>
+      <property name="objectName2" value="pa10"/>
+      <property name="springDamperModel" value="false"/>
+      <property name="staticFriction" value="0.5"/>
+    </item>
+  </mode>
+</grxui>

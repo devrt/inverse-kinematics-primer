@@ -97,12 +97,12 @@ RTC::ReturnCode_t PA10Controller::onExecute(RTC::UniqueId ec_id)
   if (!m_angles.data.length()) return RTC::RTC_OK;
 
   // initial parameter
-#define K_P 100.0
-#define K_D -100.0
+  // #define K_P 100.0
+  // #define K_D -100.0
 
   // strong K_P
-  // #define K_P 8000.0
-  // #define K_D -100.0
+#define K_P 8000.0
+#define K_D -100.0
 
   // optimal P
   // #define K_P 3000.0

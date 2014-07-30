@@ -7,8 +7,8 @@
  * $Id$
  */
 
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+#ifndef PIDCONTROLLER_H
+#define PIDCONTROLLER_H
 
 #include <rtm/Manager.h>
 #include <rtm/DataFlowComponentBase.h>
@@ -30,12 +30,12 @@
 
 using namespace RTC;
 
-class PA10Controller
+class PIDController
 : public RTC::DataFlowComponentBase
 {
  public:
-  PA10Controller(RTC::Manager* manager);
-  ~PA10Controller();
+  PIDController(RTC::Manager* manager);
+  ~PIDController();
 
   // <rtc-template block="public_attribute">
   
@@ -106,7 +106,8 @@ class PA10Controller
 
   // DataInPort declaration
   // <rtc-template block="inport_declare">
-  TimedDoubleSeq m_angles, m_vels;
+  TimedDoubleSeq m_qRef, m_angles, m_vels;
+  InPort<TimedDoubleSeq> m_qRefIn;
   InPort<TimedDoubleSeq> m_anglesIn;
   InPort<TimedDoubleSeq> m_velsIn;
   
@@ -136,14 +137,12 @@ class PA10Controller
   // </rtc-template>
 
  private:
-  TimedDoubleSeq m_qRef;
   int dummy;
   // <rtc-template block="private_attribute">
   
   // </rtc-template>
 
   // <rtc-template block="private_operation">
-  int count;
   // </rtc-template>
 
 };
@@ -151,7 +150,7 @@ class PA10Controller
 
 extern "C"
 {
-  void PA10ControllerInit(RTC::Manager* manager);
+  void PIDControllerInit(RTC::Manager* manager);
 };
 
-#endif // CONTROLLER_H
+#endif // PIDCONTROLLER_H

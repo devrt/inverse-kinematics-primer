@@ -7,15 +7,15 @@
  * $Id$
  */
 
-#include "PA10Controller.h"
+#include "PIDController.h"
 
 // Module specification
 // <rtc-template block="module_spec">
 static const char* controller_spec[] =
   {
-    "implementation_id", "PA10Controller",
-    "type_name",         "PA10Controller",
-    "description",       "Controller to drive a robot",
+    "implementation_id", "PIDController",
+    "type_name",         "PIDController",
+    "description",       "PID controller to drive a robot",
     "version",           "1.0.0",
     "vendor",            "devRT",
     "category",          "Controller",
@@ -27,9 +27,10 @@ static const char* controller_spec[] =
   };
 // </rtc-template>
 
-PA10Controller::PA10Controller(RTC::Manager* manager)
+PIDController::PIDController(RTC::Manager* manager)
   : RTC::DataFlowComponentBase(manager),
     // <rtc-template block="initializer">
+    m_qRefIn("q", m_qRef),
     m_anglesIn("angles", m_angles),
     m_velsIn("vels", m_vels),
     m_torqueOut("torque", m_torque),
@@ -49,21 +50,20 @@ PA10Controller::PA10Controller(RTC::Manager* manager)
 
 }
 
-PA10Controller::~PA10Controller()
+PIDController::~PIDController()
 {
 }
 
 
-RTC::ReturnCode_t PA10Controller::onInitialize()
+RTC::ReturnCode_t PIDController::onInitialize()
 {
   // Set InPort buffers
+  addInPort("q", m_qRefIn);
   addInPort("angles", m_anglesIn);
   addInPort("vels", m_velsIn);
   
   // Set OutPort buffer
   addOutPort("torque", m_torqueOut);
-
-  count = 0;
 
   m_qRef.data.length(9);
   m_qRef.data[0] = 0.0;
@@ -83,15 +83,9 @@ RTC::ReturnCode_t PA10Controller::onInitialize()
   return RTC::RTC_OK;
 }
 
-RTC::ReturnCode_t PA10Controller::onExecute(RTC::UniqueId ec_id)
+RTC::ReturnCode_t PIDController::onExecute(RTC::UniqueId ec_id)
 {
-  if (count > 1000)
-    m_qRef.data[1] = 0.8;
-  else
-    m_qRef.data[1] = 0.0;
-  count++;
-  if (count > 2000) count = 0;
-
+  if (m_qRefIn.isNew()) m_qRefIn.read();
   if (m_anglesIn.isNew()) m_anglesIn.read();
   if (m_velsIn.isNew()) m_velsIn.read();
   if (!m_angles.data.length()) return RTC::RTC_OK;
@@ -132,12 +126,12 @@ RTC::ReturnCode_t PA10Controller::onExecute(RTC::UniqueId ec_id)
 extern "C"
 {
  
-  void PA10ControllerInit(RTC::Manager* manager)
+  void PIDControllerInit(RTC::Manager* manager)
   {
     RTC::Properties profile(controller_spec);
     manager->registerFactory(profile,
-                             RTC::Create<PA10Controller>,
-                             RTC::Delete<PA10Controller>);
+                             RTC::Create<PIDController>,
+                             RTC::Delete<PIDController>);
   }
   
 };

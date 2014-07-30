@@ -9,7 +9,7 @@ WRAPPER_FLAGS = --include-dir="" --skel-suffix=Skel --stub-suffix=Stub
 
 .SUFFIXES : .so
 
-all: PA10Controller.so
+all: PIDController.so InverseKinematics.so HandMotionGeneration.so
 
 .cpp.o:
 	rm -f $@
@@ -29,7 +29,13 @@ clean_skelstub:
 	rm -f *Skel.h *Skel.cpp
 	rm -f *Stub.h *Stub.cpp
 
-PA10Controller.so: PA10Controller.o
-PA10Controller.o: PA10Controller.h 	 	
+PIDController.so: PIDController.o
+PIDController.o: PIDController.h PIDController.cpp
+
+InverseKinematics.so: InverseKinematics.o
+InverseKinematics.o: InverseKinematics.h InverseKinematics.cpp
+
+HandMotionGeneration.so: HandMotionGeneration.o
+HandMotionGeneration.o: HandMotionGeneration.h HandMotionGeneration.cpp
 
 # end of Makefile

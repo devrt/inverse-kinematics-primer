@@ -11,11 +11,17 @@
     </item>
     <item class="com.generalrobotix.ui.item.GrxRTSItem" name="untitled" select="true">
       <property name="pa10.period" value="0.005"/>  
-      <property name="PA10Controller0.period" value="0.005"/>  
-      <property name="PA10Controller0.factory" value="PA10Controller"/>  
-      <property name="connection" value="pa10.q:PA10Controller0.angles"/>
-      <property name="connection" value="pa10.dq:PA10Controller0.vels"/>
-      <property name="connection" value="PA10Controller0.torque:pa10.qRef"/>
+      <property name="PIDController0.period" value="0.005"/>  
+      <property name="PIDController0.factory" value="PIDController"/>  
+      <property name="InverseKinematics0.period" value="0.005"/>  
+      <property name="InverseKinematics0.factory" value="InverseKinematics"/>  
+      <property name="HandMotionGeneration0.period" value="0.005"/>  
+      <property name="HandMotionGeneration0.factory" value="HandMotionGeneration"/>  
+      <property name="connection" value="pa10.q:PIDController0.angles"/>
+      <property name="connection" value="pa10.dq:PIDController0.vels"/>
+      <property name="connection" value="PIDController0.torque:pa10.qRef"/>
+      <property name="connection" value="InverseKinematics0.pose:PIDController0.q"/>
+      <property name="connection" value="HandMotionGeneration0.handpos:InverseKinematics0.handpos"/>
     </item>
     <item class="com.generalrobotix.ui.item.GrxWorldStateItem" name="PA10" select="true">
       <property name="logTimeStep" value="0.0010 "/>
